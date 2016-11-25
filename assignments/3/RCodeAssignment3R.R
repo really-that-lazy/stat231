@@ -5,12 +5,18 @@ library(MASS)     # truehist is in the library MASS
 
 ###################################################################################
 # Problem 1: Binomial confidence intervals and sampling distribution of likelihood ratio statistic
-id<-20456458
+##id<-20456458
+id<-20466075
 set.seed(id)
+
+
+cat("\nProblem 1\n")
 #   generate a random value of theta
 theta<-rbeta(1, max(1,id-10*trunc(id/10)), max(1,trunc(id/10)-10*trunc(id/100))) 
 if (theta<0.1) {theta<-theta+0.1}   # avoid small values of theta
 if (theta>0.9) {theta<-theta-0.1}   # avoid large values of theta
+
+
 n<-30
 cat("n = ",n," theta = ",theta)   # display values
 # vector of observations for 5000 simulations from a Binomial(n,theta) distribution
@@ -50,8 +56,12 @@ cat("proportion of 15% likelihood intervals which contain true value of theta = 
 # calculate the likelihood ratio statistic for all 5000 simulations and plot a relative histogram of values
 # the histogram approximates the sampling distribution of the likelihood ratio statistic
 lambda<-(-2*log(dbinom(yobs,n,theta)/dbinom(yobs,n,that)))
+
+png("problem1-1.png", width=680, height=480, res=120)
 truehist(lambda,h=0.5,xlab="Likelihood Ratio Statistic",main="Sampling Distribution of Likelihood Ratio Statistic")
 curve(dchisq(x,1), from=0.001,to=12,add=TRUE,col="red",lwd=2) # superimpose Chi-squared (1) pdf
+dev.off()
+
 #
 # use number of trials = 100 for the Binomial experiment
 n<-100
@@ -89,11 +99,23 @@ cat("proportion of 15% likelihood intervals which contain true value of theta = 
 # calculate the likelihood ratio statistic for all 5000 simulations and plot a relative histogram of values
 # the histogram approximates the sampling distribution of the likelihood ratio statistic
 lambda<-(-2*log(dbinom(yobs,n,theta)/dbinom(yobs,n,that)))
+
+png("problem1-2.png", width=680, height=480, res=120)
 truehist(lambda,h=0.5,xlab="Likelihood Ratio Statistic",main="Sampling Distribution of Likelihood Ratio Statistic")
 curve(dchisq(x,1), from=0.001,to=12,add=TRUE,col="red",lwd=2) # superimpose Chi-squared (1) pdf
+dev.off()
 ###################################################################################
 
 
+
+
+
+
+
+
+
+
+cat("\n\n\nProblem 2\n")
 ###################################################################################
 # Problem 2: Exponential confidence intervals and sampling distribution of likelihood ratio statistic
 set.seed(id)
@@ -134,11 +156,13 @@ cat("proportion of 15% likelihood intervals which contain true value of theta = 
 # calculate the likelihood ratio statistic for all 5000 simulations and plot a relative histogram of values
 # the histogram approximates the sampling distribution of the likelihood ratio statistic
 lambda<- -2*log((that/theta)^n*exp(n*(1-that/theta)))
+png("problem2-1.png", width=680, height=480, res=120)
 truehist(lambda,h=0.5,xlab="Likelihood Ratio Statistic",main="Sampling Distribution of Likelihood Ratio Statistic")
 curve(dchisq(x,1), from=0.001,to=12,add=TRUE,col="red",lwd=2) # superimpose Chi-squared (1) pdf
+dev.off()
 ###################################################################################
 
-
+cat("\n\n\nProblem 3\n")
 ###################################################################################
 # Problem 3: Gaussian confidence intervals
 # The following R code runs a simulation in which 95% confidence intervals for the mean mu and the      
@@ -171,5 +195,5 @@ cisig[1:10,1:2]        #Look at first ten 95% confidence intervals for sigma
 prop<-mean(sig>=cisig[,1] & sig<=cisig[,2])
 cat("proportion of 95% confidence intervals which contain true value of sigma = ",prop)
 ###################################################################################
-
+cat("\n\nEnd Script\n\n\n\n")
 
